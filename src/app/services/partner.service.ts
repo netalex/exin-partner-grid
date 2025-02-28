@@ -10,7 +10,7 @@ import { PartnerDetail } from './models/partner-detail';
 export class PartnerService {
 
   private readonly baseUrl = 'https://mrkt-dsk.dev.exin.digital/api/v2/desk/partners/fideuram'
-  private readonly year:string = '2025'
+  private readonly year: string = '2025'
 
   private readonly headers = new HttpHeaders({
     'Authorization': 'User 1',

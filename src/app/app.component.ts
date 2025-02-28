@@ -1,21 +1,22 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MainGridComponent } from "../features/main-grid/main-grid.component";
+import { CommonModule } from '@angular/common';
+// import { MainGridComponent } from "./features/main-grid/main-grid.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MainGridComponent],
+  imports: [CommonModule, RouterOutlet],/* RouterOutlet */
   template: `
-  <div class="center-container">
-    <app-main-grid />
-  </div>
+  <div class="app-container">
+      <router-outlet></router-outlet>
+    </div>
+
   ` ,
   styles: [`
   .center-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Altezza totale della viewport */
 }
 
   `]
