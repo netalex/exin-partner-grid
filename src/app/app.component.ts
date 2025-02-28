@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-// import { MainGridComponent } from "./features/main-grid/main-grid.component";
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet],/* RouterOutlet */
+  imports: [CommonModule, RouterOutlet],
   template: `
   <div class="app-container">
       <router-outlet></router-outlet>
@@ -13,12 +12,11 @@ import { CommonModule } from '@angular/common';
 
   ` ,
   styles: [`
-  .center-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    .app-container {
+      //max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
 }
-
   `]
 })
 export class AppComponent {

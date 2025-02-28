@@ -123,9 +123,9 @@ interface PartnerWithUI extends Partner {
       position: absolute;
       top: 12px;
       left: 12px;
-      padding: 4px 12px;
+      padding: 4px 20px;
       border-radius: 16px;
-      font-size: 12px;
+      font-size: 20px;
       font-weight: 500;
       z-index: 10;
     }
@@ -137,7 +137,8 @@ interface PartnerWithUI extends Partner {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 0px;
+      border: 1px
     }
 
     .partner-logo {
