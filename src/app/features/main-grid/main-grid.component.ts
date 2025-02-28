@@ -298,6 +298,7 @@ export class MainGridComponent implements OnInit {
    */
   getBilledPercentage(partner: any): number {
     if (!partner.partner_budget) return 0;
+    if (partner.partner_budget==null) return 0;
 
     const budget = parseFloat(partner.partner_budget);
     const invoiced = parseFloat(partner.partner_events_invoiced || '0');
@@ -310,6 +311,8 @@ export class MainGridComponent implements OnInit {
    */
   getAllocatedPercentage(partner: any): number {
     if (!partner.partner_budget) return 0;
+    if (partner.partner_budget==null) return 0;
+
 
     const budget = parseFloat(partner.partner_budget);
     const notInvoiced = parseFloat(partner.partner_events_not_invoiced || '0');
