@@ -1,4 +1,4 @@
-export interface Partners {
+export interface Partners extends Array<Partner> {
   partner_levels: Partnerlevel[];
   partners: Partner[];
 }
