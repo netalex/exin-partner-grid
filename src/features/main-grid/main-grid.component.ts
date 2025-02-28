@@ -9,9 +9,9 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-main-grid',
   imports: [CommonModule],
-template: `
+  template: `
 <div>
-<pre class="" id="partners">{{partners$ | async | json}}</pre>
+      <pre class="" id="partners">{{partners$ | async | json}}</pre>
       <pre id="detail1">{{partnerDetail$ | async | json}}</pre>
 </div>
   `,
