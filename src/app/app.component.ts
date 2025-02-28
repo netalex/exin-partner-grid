@@ -7,8 +7,7 @@ import { MainGridComponent } from "../features/main-grid/main-grid.component";
   imports: [RouterOutlet, MainGridComponent],
   template: `
   <div class="center-container">
-
-  <app-main-grid />
+    <app-main-grid />
   </div>
   ` ,
   styles: [`
