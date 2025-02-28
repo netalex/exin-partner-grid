@@ -315,6 +315,7 @@ export class MainGridComponent implements OnInit {
 
 
     const budget = parseFloat(partner.partner_budget);
+    if (partner.partner_events_not_invoiced==null) { partner.partner_events_not_invoiced = 0}
     const notInvoiced = parseFloat(partner.partner_events_not_invoiced || '0');
 
     return Math.min(Math.round((notInvoiced / budget) * 100), 100);
