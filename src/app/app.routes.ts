@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { MainGridComponent } from './features/main-grid/main-grid.component';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
 
 export const routes: Routes = [
-  { path: '', component: MainGridComponent },
+  { path: '', component: DashboardComponent },
   {
     path: 'partner/:id',
-    loadComponent: () => import('./features/partner-detail/partner-detail.component')
+    loadComponent: () => import('./views/partner-detail/partner-detail.component')
       .then(m => m.PartnerDetailComponent)
   },
   { path: '**', redirectTo: '' }

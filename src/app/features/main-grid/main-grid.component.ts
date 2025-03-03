@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, map } from 'rxjs';
+import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { PartnerService } from '../../services/partner.service';
 import { Partner } from '../../services/models/partners';
+import { PartnerFilterService } from '../../services/partner-filter.service';
 
 // Extended interface for UI interaction states
 interface PartnerWithUI extends Partner {
@@ -271,17 +272,32 @@ interface PartnerWithUI extends Partner {
     }
   `]
 })
-export class MainGridComponent implements OnInit {
+export class MainGridComponent implements OnInit, OnDestroy {
   partners$: Observable<PartnerWithUI[]>;
+  private readonly destroy$ = new Subject<void>();
+
 
   constructor(
     private readonly partnerService: PartnerService,
+    private readonly filterService: PartnerFilterService,
     private readonly router: Router
   ) {
-    this.partners$ = this.partnerService.getPartners().pipe(
-      map(response => {
+    // Combine partners data with filter
+    this.partners$ = combineLatest([
+      this.partnerService.getPartners(),
+      this.filterService.levelFilter$
+    ]).pipe(
+      takeUntil(this.destroy$),
+      map(([response, levelFilter]) => {
         const partners = response.partners || [];
-        return partners.map(partner => ({
+
+        // Apply filter if a level is selected
+        const filteredPartners = levelFilter === null
+          ? partners
+          : partners.filter(partner => partner.partner_level_id === levelFilter);
+
+        // Add UI state
+        return filteredPartners.map(partner => ({
           ...partner,
           showDetails: false
         })) as PartnerWithUI[];
@@ -298,7 +314,7 @@ export class MainGridComponent implements OnInit {
    */
   getBilledPercentage(partner: any): number {
     if (!partner.partner_budget) return 0;
-    if (partner.partner_budget==null) return 0;
+    if (partner.partner_budget == null) return 0;
 
     const budget = parseFloat(partner.partner_budget);
     const invoiced = parseFloat(partner.partner_events_invoiced || '0');
@@ -311,11 +327,11 @@ export class MainGridComponent implements OnInit {
    */
   getAllocatedPercentage(partner: any): number {
     if (!partner.partner_budget) return 0;
-    if (partner.partner_budget==null) return 0;
+    if (partner.partner_budget == null) return 0;
 
 
     const budget = parseFloat(partner.partner_budget);
-    if (partner.partner_events_not_invoiced==null) { partner.partner_events_not_invoiced = 0}
+    if (partner.partner_events_not_invoiced == null) { partner.partner_events_not_invoiced = 0 }
     const notInvoiced = parseFloat(partner.partner_events_not_invoiced || '0');
 
     return Math.min(Math.round((notInvoiced / budget) * 100), 100);
@@ -338,4 +354,12 @@ export class MainGridComponent implements OnInit {
     event.stopPropagation(); // Prevent event propagation to container
     this.router.navigate(['/partner', partnerId]);
   }
+
+
+  ngOnDestroy() {
+    // Clean up
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 }
